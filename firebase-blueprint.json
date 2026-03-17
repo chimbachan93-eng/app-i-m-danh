@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "A student in a class",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "paidMonths": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        }
+      },
+      "required": ["id", "name", "phone"]
+    },
+    "Session": {
+      "title": "Session",
+      "description": "An attendance session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string" },
+        "attendance": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        }
+      },
+      "required": ["id", "date", "attendance"]
+    },
+    "ClassData": {
+      "title": "ClassData",
+      "description": "A class containing students and sessions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "feePerSession": { "type": "number" },
+        "students": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Student" }
+        },
+        "sessions": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Session" }
+        },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "name", "feePerSession", "students", "sessions", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/classes/{classId}": {
+      "schema": { "$ref": "#/entities/ClassData" },
+      "description": "Stores user classes"
+    }
+  }
+}
